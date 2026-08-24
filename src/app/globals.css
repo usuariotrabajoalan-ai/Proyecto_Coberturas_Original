@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FFFAF4; /* Color cremita muy suave */
+  --foreground: #292524; /* stone-800 */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}

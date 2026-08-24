@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  document  String   @unique // DNI/CI used for login
+  password  String
+  role      String   @default("CLEANER") // "ADMIN" or "CLEANER"
+  jobs      Job[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id        String   @id @default(cuid())
+  name      String // e.g. "Quincho 1", "Salón Principal"
+  campus    String   @default("Sede Social") // Always Sede Social per requirements
+  jobs      Job[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id           String    @id @default(cuid())
+  date         DateTime // Event Date
+  startTime    String // e.g. "14:00"
+  scheduledEndTime String? // e.g. "18:00"
+  imageUrl     String? // General event info image
+  status       String    @default("PENDING") // "PENDING" or "COMPLETED"
+  notes        String? // Cleaner observation
+  endTime      DateTime? // When the coverage was finished
+  signatureUrl String? // Canvas signature data URL
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
