@@ -22,5 +22,5 @@ export async function finishJobAction({
     }
   });
 
-  redirect("/personal");
+  redirect("/limpiadora");
 }

@@ -17,13 +17,13 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
   });
 
   if (!job || job.userId !== session?.user?.id || job.status === "COMPLETED") {
-    redirect("/personal");
+    redirect("/limpiadora");
   }
 
   return (
     <div className="space-y-6 pb-8">
       <div className="flex items-center gap-2 mb-2">
-        <Link href="/personal" className="flex items-center gap-1 text-slate-500 font-medium hover:text-blue-600 transition-colors">
+        <Link href="/limpiadora" className="flex items-center gap-1 text-slate-500 font-medium hover:text-blue-600 transition-colors">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
           Volver a mis trabajos
         </Link>

@@ -72,7 +72,7 @@ export default async function PersonalPage() {
             {/* Botón de Acción */}
             <div className="p-6 bg-white border-t border-orange-50">
               <Link 
-                href={`/personal/job/${job.id}`}
+                href={`/limpiadora/job/${job.id}`}
                 className="flex items-center justify-center w-full py-4 bg-gradient-to-r from-red-800 to-orange-600 text-white rounded-2xl font-black text-lg hover:from-red-900 hover:to-orange-700 transition-all shadow-lg shadow-red-900/20 active:scale-[0.98]"
               >
                 Atender Trabajo
@@ -85,3 +85,4 @@ export default async function PersonalPage() {
     </div>
   );
 }
+

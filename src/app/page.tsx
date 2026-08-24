@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+﻿import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -12,6 +12,7 @@ export default async function Home() {
   if (session.user.role === "ADMIN") {
     redirect("/admin");
   } else {
-    redirect("/personal");
+    redirect("/limpiadora");
   }
 }
+
