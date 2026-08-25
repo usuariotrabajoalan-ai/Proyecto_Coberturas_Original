@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
 
   const filename = `Reporte_${employeeName.replace(/\s+/g, '_')}_${selectedYear}-${selectedMonth}.xlsx`;
 
-  return new NextResponse(buffer, {
+  return new NextResponse(buffer as ArrayBuffer, {
     status: 200,
     headers: {
       'Content-Disposition': `attachment; filename="${filename}"`,

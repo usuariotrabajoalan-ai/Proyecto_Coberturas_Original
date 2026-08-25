@@ -21,13 +21,9 @@ async function addJob(formData: FormData) {
     const bytes = await image.arrayBuffer();
     const buffer = Buffer.from(bytes);
     
-    // Create a unique filename
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const filename = uniqueSuffix + '-' + image.name.replace(/[^a-zA-Z0-9.-]/g, '');
-    const path = join(process.cwd(), 'public/uploads', filename);
-    
-    await writeFile(path, buffer);
-    imageUrl = `/uploads/${filename}`;
+    // Store image directly in the database as base64 to avoid Vercel filesystem errors
+    const base64Image = `data:${image.type || 'image/png'};base64,${buffer.toString('base64')}`;
+    imageUrl = base64Image;
   }
 
   // Create Date object
