@@ -40,6 +40,25 @@ async function addJob(formData: FormData) {
       status: "PENDING"
     }
   });
+
+  // SEND WHATSAPP NOTIFICATION
+  try {
+    const assignedUser = await prisma.user.findUnique({ where: { id: userId } });
+    const loc = await prisma.location.findUnique({ where: { id: locationId } });
+    
+    if (assignedUser?.phone && process.env.WHATSAPP_BOT_URL) {
+      const formattedDate = date.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+      const msg = `🔔 *NUEVO TRABAJO ASIGNADO*\n\nHola *${assignedUser.name}*, tienes una nueva cobertura programada:\n\n📍 *Lugar:* ${loc?.name} - ${loc?.campus}\n📅 *Fecha:* ${formattedDate}\n⏰ *Hora:* ${startTime}${scheduledEndTime ? ` a ${scheduledEndTime}` : ''}\n\nPor favor, ingresa al sistema de coberturas para más detalles.`;
+      
+      fetch(`${process.env.WHATSAPP_BOT_URL}/api/whatsapp/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: assignedUser.phone, message: msg })
+      }).catch(err => console.error("Error en fetch de WhatsApp:", err));
+    }
+  } catch (err) {
+    console.error("Error preparando notificación de WhatsApp:", err);
+  }
   
   revalidatePath("/admin/trabajos");
 }

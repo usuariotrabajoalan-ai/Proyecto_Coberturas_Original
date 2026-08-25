@@ -43,6 +43,19 @@ async function updatePassword(formData: FormData) {
   revalidatePath(`/admin/empleados/${id}`);
 }
 
+async function updatePhone(formData: FormData) {
+  "use server";
+  const id = formData.get("id") as string;
+  const phone = formData.get("phone") as string;
+  
+  await prisma.user.update({
+    where: { id },
+    data: { phone: phone || null }
+  });
+  revalidatePath("/admin/empleados");
+  revalidatePath(`/admin/empleados/${id}`);
+}
+
 export default async function EmployeeDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const emp = await prisma.user.findUnique({
@@ -77,6 +90,7 @@ export default async function EmployeeDetailsPage({ params }: { params: Promise<
             <div>
               <h2 className="text-2xl font-black text-slate-800">{emp.name}</h2>
               <p className="text-slate-500 font-medium">Documento / C.I: <span className="font-mono bg-slate-100 px-2 py-1 rounded text-slate-700">{emp.document}</span></p>
+              {emp.phone && <p className="text-slate-500 font-medium mt-1">Teléfono: <span className="font-mono bg-green-50 text-green-700 px-2 py-1 rounded border border-green-200">{emp.phone}</span></p>}
             </div>
           </div>
           <div className="flex gap-4">
@@ -98,6 +112,24 @@ export default async function EmployeeDetailsPage({ params }: { params: Promise<
               <h3 className="text-lg font-bold text-slate-800 mb-2">Compartir Accesos</h3>
               <p className="text-sm text-slate-500 mb-4">Copia los datos de este personal para enviarlos rápidamente por WhatsApp.</p>
               <CopyCredentialsButton name={emp.name} document={emp.document} />
+            </div>
+
+            <div className="pt-6 border-t border-slate-100">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Teléfono WhatsApp</h3>
+              <p className="text-sm text-slate-500 mb-4">Actualiza el número para notificaciones automáticas.</p>
+              <form action={updatePhone} className="space-y-3">
+                <input type="hidden" name="id" value={emp.id} />
+                <input 
+                  type="text" 
+                  name="phone" 
+                  defaultValue={emp.phone || ""}
+                  placeholder="Ej. 0981123456"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 font-medium transition-all"
+                />
+                <button type="submit" className="px-5 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all w-full shadow-sm">
+                  Guardar Teléfono
+                </button>
+              </form>
             </div>
 
             <div className="pt-6 border-t border-slate-100">

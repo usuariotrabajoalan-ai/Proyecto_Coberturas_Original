@@ -7,12 +7,13 @@ async function addEmployee(formData: FormData) {
   "use server";
   const name = formData.get("name") as string;
   const document = formData.get("document") as string;
+  const phone = formData.get("phone") as string;
   if (!name || !document) return;
   
   const hashedPassword = await bcrypt.hash(document, 10);
   try {
     await prisma.user.create({
-      data: { name, document, password: hashedPassword, role: "CLEANER" }
+      data: { name, document, phone: phone || null, password: hashedPassword, role: "CLEANER" }
     });
     revalidatePath("/admin/empleados");
   } catch (e) {
@@ -27,7 +28,7 @@ export default async function EmpleadosPage() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-xl shadow-sm border border-slate-200 flex items-center justify-center">
@@ -46,17 +47,26 @@ export default async function EmpleadosPage() {
               type="text" 
               name="name" 
               required
-              placeholder="Ej. Juan Pérez o Teresa Rolón" 
+              placeholder="Ej. Juan Pérez" 
               className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 font-medium transition-all"
             />
           </div>
           <div className="flex-1 w-full">
-            <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Nro. de Documento (C.I.)</label>
+            <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Nro. Documento</label>
             <input 
               type="text" 
               name="document" 
               required
               placeholder="Ej. 1234567" 
+              className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 font-medium transition-all"
+            />
+          </div>
+          <div className="flex-1 w-full">
+            <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1">Teléfono WhatsApp</label>
+            <input 
+              type="text" 
+              name="phone" 
+              placeholder="Ej. 0981123456" 
               className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 font-medium transition-all"
             />
           </div>
