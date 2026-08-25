@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import PwaRegister from "@/components/PwaRegister";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sistema de Cobertura",
-  description: "Gestión de tareas de limpieza",
+  title: "Coberturas AFEMEC",
+  description: "Sistema de Coberturas",
+  manifest: "/manifest.json",
+  themeColor: "#ea580c",
 };
 
 export default function RootLayout({
@@ -28,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <PwaRegister />
         <Providers>
           {children}
         </Providers>

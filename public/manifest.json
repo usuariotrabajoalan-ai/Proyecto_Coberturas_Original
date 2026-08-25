@@ -1,0 +1,21 @@
+{
+  "name": "Coberturas AFEMEC",
+  "short_name": "Sede",
+  "description": "Sistema de asignación de coberturas AFEMEC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ea580c",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
