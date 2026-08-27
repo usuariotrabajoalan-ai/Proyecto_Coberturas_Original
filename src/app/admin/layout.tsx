@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import MobileAdminSidebar from "@/components/MobileAdminSidebar";
+import WakeBot from "@/components/WakeBot";
 
 export default async function AdminLayout({
   children,
@@ -19,6 +20,7 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#FFFAF4] flex flex-col md:flex-row font-sans">
+      <WakeBot botUrl={process.env.WHATSAPP_BOT_URL} />
       <MobileAdminSidebar userName={userName} initial={initial} />
 
       {/* Main Content */}
