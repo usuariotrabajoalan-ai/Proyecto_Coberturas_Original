@@ -21,6 +21,8 @@ export const metadata: Metadata = {
   themeColor: "#ea580c",
 };
 
+import IntroSplash from "@/components/IntroSplash";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,6 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <PwaRegister />
+        <IntroSplash />
         <Providers>
           {children}
         </Providers>
