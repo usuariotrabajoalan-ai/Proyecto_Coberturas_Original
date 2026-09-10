@@ -8,7 +8,22 @@ import CopyCredentialsButton from "@/components/CopyCredentialsButton";
 async function deleteEmployee(formData: FormData) {
   "use server";
   const id = formData.get("id") as string;
-  await prisma.user.delete({ where: { id } });
+  try {
+    await prisma.user.delete({ where: { id } });
+  } catch (e: any) {
+    if (e.code === 'P2003') {
+      await prisma.user.update({
+        where: { id },
+        data: { 
+          role: "DELETED", 
+          document: `DELETED_${Date.now()}_${id.substring(0, 5)}`,
+          password: "DELETED"
+        }
+      });
+    } else {
+      throw e;
+    }
+  }
   revalidatePath("/admin/empleados");
   redirect("/admin/empleados");
 }
