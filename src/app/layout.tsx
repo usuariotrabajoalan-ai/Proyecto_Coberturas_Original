@@ -16,12 +16,21 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Coberturas AFEMEC",
-  description: "Sistema de Coberturas",
+  description: "Sistema de Coberturas AFEMEC",
   manifest: "/manifest.json",
-  themeColor: "#ea580c",
+  icons: {
+    icon: "/icon-192.png",
+    apple: "/icon-192.png",
+  },
+  appleWebApp: {
+    title: "Coberturas AFEMEC",
+    statusBarStyle: "default",
+    capable: true,
+  },
 };
 
 import IntroSplash from "@/components/IntroSplash";
+import InstallPrompt from "@/components/InstallPrompt";
 
 export default function RootLayout({
   children,
@@ -30,11 +39,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pwaPrompt=e;});`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <PwaRegister />
         <IntroSplash />
+        <InstallPrompt />
         <Providers>
           {children}
         </Providers>
